@@ -28,7 +28,6 @@ export default function Sidebar({
       case 'starred':
         return todos.filter(t => t.starred && !t.completed).length;
       default:
-        // Category count
         return todos.filter(t => t.category === filter && !t.completed).length;
     }
   };
@@ -97,7 +96,7 @@ export default function Sidebar({
       <div className="sidebar-section">
         <div className="section-header">
           <h3>Lists</h3>
-          <button className="add-cat-btn" onClick={() => setShowAddCat(!showAddCat)}>
+          <button className="add-cat-btn" onClick={() => setShowAddCat(!showAddCat)} title="Create new list">
             <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" width="16" height="16">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
@@ -108,7 +107,7 @@ export default function Sidebar({
           <form className="add-cat-form" onSubmit={handleCreateCategory}>
             <input
               type="text"
-              placeholder="New category..."
+              placeholder="List name..."
               value={newCatName}
               onChange={(e) => setNewCatName(e.target.value)}
               autoFocus
@@ -137,27 +136,39 @@ export default function Sidebar({
       {/* Customization Settings panel */}
       <div className="sidebar-footer">
         <div className="settings-panel">
-          <div className="settings-row">
-            <span>Theme</span>
-            <button 
-              className="theme-toggle-btn"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            >
-              {theme === 'dark' ? (
-                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" width="18" height="18">
+          {/* Capsule Theme Toggler */}
+          <div className="settings-row flex-col">
+            <span className="settings-section-lbl">Appearance</span>
+            <div className="theme-capsule">
+              <div className={`theme-capsule-slider ${theme}`} />
+              <button 
+                type="button"
+                className={`capsule-btn ${theme === 'light' ? 'active' : ''}`}
+                onClick={() => setTheme('light')}
+                title="Light Mode"
+              >
+                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" width="16" height="16">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
                 </svg>
-              ) : (
-                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" width="18" height="18">
+                <span>Light</span>
+              </button>
+              <button 
+                type="button"
+                className={`capsule-btn ${theme === 'dark' ? 'active' : ''}`}
+                onClick={() => setTheme('dark')}
+                title="Dark Mode"
+              >
+                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" width="16" height="16">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
-              )}
-              <span className="theme-toggle-text">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-            </button>
+                <span>Dark</span>
+              </button>
+            </div>
           </div>
 
+          {/* Accent Color Circles */}
           <div className="settings-row flex-col">
-            <span className="accent-label">Accent Color</span>
+            <span className="settings-section-lbl">Accent Palette</span>
             <div className="accent-dots">
               {accents.map((acc) => (
                 <button
